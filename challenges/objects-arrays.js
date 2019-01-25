@@ -53,7 +53,7 @@ console.log(tyrannosaurus.roar());
 
 // ==== Arrays ====
 
-// Given an array of college graduates.  Complete the following requests WITHOUT using any array methods like .forEach(), .map(), .reduce(), .filter()
+// Given an array of college graduates.  Complete the following requests WITHOUT using any array methods like .forEach(), .map(), .reduce(), .filter() GIVEN THE GREEN LIGHT TO USE THOSE METHODS IN SLACK
 
 const graduates = [
   {
@@ -122,18 +122,39 @@ const graduates = [
 /* Request 1: Create a new array called universities that contains all the univeristies in the graduates array.
 
 Once you have the new array created, sort the universities alphabetically and log the result. */
-const universities = [];
-for (let i = 0; i < graduates.length; i++) {
-  universities.push(graduates[i].university);
-  universities.sort(function(a, b) {
-    let nameA = a.toLowerCase(),
-      nameB = b.toLowerCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
+//const universities = [];
+//for (let i = 0; i < graduates.length; i++) {
+//universities.push(graduates[i].university);
+//universities.sort(function(a, b) {
+//let nameA = a.toLowerCase(),
+//nameB = b.toLowerCase();
+//if (nameA < nameB) return -1;
+//if (nameA > nameB) return 1;
+//return 0;
+//});
+//}
+//console.log(universities);
+
+// OPTIONAL. A FUNCTION THAT DEFINES AN ALTERNATIVE SORT ORDER. THE FUNCTION
+// SHOULD RETURN A NEGATIVE,ZERO,OR POSITIVE VALUE, DEPENDING ON THE ARGUMENTS.
+// WHEN SORT METHOD COMPARES TWO VALUES, IT SENDS THE VALUES TO THE COMPARE
+// FUNCTION, AND SORTS THE VALUES ACCORDING TO THE RETURNED (NEGATIVE, ZERO,
+// POSITIVE) VALUE.  EXAMPLE: COMPARING 40 TO 100: SORT METHOD CALLS COMPARE
+// FUNCTION WHICH CALCULATES 40 - 100, AND RETURNS -60 (NEGATIVE VALUE) SORT
+// FUNCTION WILL SORT 40 AS A VALUE LOWER THAN 100.
+
+const sortedUniversities = graduates
+  .map(student => student.first_name)
+  .sort((a, b) => {
+    if (a.toLowerCase() < b.toLowerCase()) {
+      return -1;
+    }
+    if (a.toLowerCase() > b.toLowerCase()) {
+      return 1;
+    }
     return 0;
   });
-}
-console.log(universities);
+console.log(sortedUniversities);
 
 /* Request 2: Create a new array called contactInfo that contains both first name and email of each student.
 
@@ -141,19 +162,35 @@ The resulting contact information should have a space between the first name and
 Name email@example.com
 
 Log the result of your new array. */
+//const contactInfo = [];
+//for (let i = 0; i < graduates.length; i++) {
+//contactInfo.push(graduates[i].first_name + " " + graduates[i].email);
+//}
+//console.log(contactInfo);
+
+// ES6 SAME PROBLEM
 const contactInfo = [];
-for (let i = 0; i < graduates.length; i++) {
-  contactInfo.push(graduates[i].first_name + " " + graduates[i].email);
-}
+contactInfo.push(graduates.map(item => item.first_name + " " + item.email));
+
 console.log(contactInfo);
 
 /* Request 3: Find out how many universities have the string "Uni" included in their name. Create a new array called uni that contains them all. Log the result. */
+//const uni = [];
+//for (let i = 0; i < graduates.length; i++) {
+//if (graduates[i].university.indexOf("Uni") !== -1) {
+//uni.push(graduates[i].university);
+//}
+//}
+//console.log(uni);
+
+// I REALLY ENJOY REGEX.  ALWAYS LIKE LEARNING NEW WAYS TO USE IT.
 const uni = [];
-for (let i = 0; i < graduates.length; i++) {
-  if (graduates[i].university.indexOf("Uni") !== -1) {
-    uni.push(graduates[i].university);
-  }
-}
+uni.push(
+  graduates
+    .map(student => student.university.match(/Uni/))
+    .filter(item => item !== null)
+);
+//uni.push(graduates.match(/Uni/));
 console.log(uni);
 
 // ==== ADVANCED Array Methods ====
